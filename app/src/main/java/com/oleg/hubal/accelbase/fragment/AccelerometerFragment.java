@@ -13,7 +13,7 @@ import android.widget.EditText;
 
 import com.oleg.hubal.accelbase.Constants;
 import com.oleg.hubal.accelbase.R;
-import com.oleg.hubal.accelbase.Utility;
+import com.oleg.hubal.accelbase.Utils;
 import com.oleg.hubal.accelbase.service.AccelerometerService;
 
 /**
@@ -33,18 +33,18 @@ public class AccelerometerFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_accelerometer, container, false);
+        View view = inflater.inflate(R.layout.fragment_accelerometer, container, false);
 
         if (savedInstanceState != null) {
             checkBoxState = savedInstanceState.getBoolean(STATE_CHECKED);
         }
 
-        etDelay = (EditText) v.findViewById(R.id.etDelay);
-        chbStopStart = (CheckBox) v.findViewById(R.id.chbStopStartService);
+        etDelay = (EditText) view.findViewById(R.id.etDelay);
+        chbStopStart = (CheckBox) view.findViewById(R.id.chbStopStartService);
         chbStopStart.setChecked(checkBoxState);
         chbStopStart.setOnCheckedChangeListener(this);
 
-        return v;
+        return view;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class AccelerometerFragment extends Fragment
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         Intent intent = new Intent(getContext(), AccelerometerService.class);
         if (isChecked) {
-            long delay = Utility.getDelayFromEditText(etDelay.getText());
+            long delay = Utils.getDelayFromEditText(etDelay.getText());
             intent.putExtra(Constants.EXTRA_EDIT_TEXT_DELAY, delay);
             getActivity().startService(intent);
         } else {

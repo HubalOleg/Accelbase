@@ -3,4 +3,12 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="text_size_start_stop">26sp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="logo_w_h">100dp</dimen>
+    <dimen name="image_view_margin">30dp</dimen>
+    <dimen name="btn_margin_top">20dp</dimen>
+    <dimen name="progressbar_size">30dp</dimen>
+    <dimen name="progressbar_margin_bot">20dp</dimen>
+    <dimen name="btn_text_size">15sp</dimen>
+    <dimen name="view_margin_bot">10dp</dimen>
 </resources>

@@ -9,7 +9,6 @@ import android.hardware.SensorManager;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.oleg.hubal.accelbase.Constants;
 
@@ -31,7 +30,7 @@ public class AccelerometerService extends Service implements SensorEventListener
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         accelerometerDelay = intent.getLongExtra(Constants.EXTRA_EDIT_TEXT_DELAY, 1000);
-        startAccelerometer();
+        startAccelerometerLoop();
 
         return START_STICKY;
     }
@@ -58,7 +57,7 @@ public class AccelerometerService extends Service implements SensorEventListener
 
     }
 
-    private void startAccelerometer() {
+    private void startAccelerometerLoop() {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -69,13 +68,7 @@ public class AccelerometerService extends Service implements SensorEventListener
     }
 
     private void saveDataAndUnregisterListener(SensorEvent event) {
-//        TODO save date
-        float value1 = event.values[0];
-        float value2 = event.values[1];
-        float value3 = event.values[2];
-
-        Log.d("log123", value1 + " " + value2 + " " + value3);
-
+//        TODO save data
         mSensorManager.unregisterListener(this);
     }
 
