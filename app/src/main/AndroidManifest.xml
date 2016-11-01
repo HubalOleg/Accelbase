@@ -20,8 +20,6 @@
         </activity>
         <service android:name=".service.AccelerometerService"
             android:exported="false" />
-        <receiver android:name=".service.receiver.AlarmReceiver"
-            android:process=":remote" />
     </application>
 
 </manifest>

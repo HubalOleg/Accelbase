@@ -13,11 +13,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AccelerometerFragment accelerometerFragment = new AccelerometerFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().
-                replace(R.id.flContainer, accelerometerFragment).
-                commit();
+        if (savedInstanceState == null) {
+            AccelerometerFragment accelerometerFragment = new AccelerometerFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().
+                    replace(R.id.flContainer, accelerometerFragment).
+                    commit();
+        }
     }
 
 }
