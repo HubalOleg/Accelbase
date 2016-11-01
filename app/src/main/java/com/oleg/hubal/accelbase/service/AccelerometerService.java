@@ -10,7 +10,15 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.oleg.hubal.accelbase.Constants;
+import com.oleg.hubal.accelbase.model.Coordinates;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by User on 01.11.2016.
@@ -19,8 +27,13 @@ import com.oleg.hubal.accelbase.Constants;
 public class AccelerometerService extends Service implements SensorEventListener {
     private SensorManager mSensorManager = null;
     private Sensor mSensor = null;
-
     private long accelerometerDelay;
+
+    private DatabaseReference mDatabase;
+    private FirebaseUser user;
+
+    private List<Coordinates> mCoordinatesList;
+    private long currentTime;
 
     final Handler handler = new Handler();
 
@@ -28,8 +41,15 @@ public class AccelerometerService extends Service implements SensorEventListener
     public int onStartCommand(Intent intent, int flags, int startId) {
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
         accelerometerDelay = intent.getLongExtra(Constants.EXTRA_EDIT_TEXT_DELAY, 1000);
+
+        currentTime = System.currentTimeMillis();
+        mCoordinatesList = new ArrayList<>();
+
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
         startAccelerometerLoop();
 
         return START_STICKY;
@@ -45,6 +65,10 @@ public class AccelerometerService extends Service implements SensorEventListener
     public void onDestroy() {
         super.onDestroy();
         handler.removeCallbacksAndMessages(null);
+
+        mDatabase.child(user.getUid()).
+                child(String.valueOf(currentTime)).
+                setValue(mCoordinatesList);
     }
 
     @Override
@@ -68,7 +92,14 @@ public class AccelerometerService extends Service implements SensorEventListener
     }
 
     private void saveDataAndUnregisterListener(SensorEvent event) {
-//        TODO save data
+        Long date = System.currentTimeMillis();
+        double x = event.values[0];
+        double y = event.values[1];
+        double z = event.values[2];
+
+        Coordinates coordinates = new Coordinates(date, x, y, z);
+        mCoordinatesList.add(coordinates);
+
         mSensorManager.unregisterListener(this);
     }
 
