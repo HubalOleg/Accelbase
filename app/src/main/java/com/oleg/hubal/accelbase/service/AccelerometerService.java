@@ -66,6 +66,7 @@ public class AccelerometerService extends Service implements SensorEventListener
         super.onDestroy();
         handler.removeCallbacksAndMessages(null);
 
+//          Push list of data on firebase
         mDatabase.child(user.getUid()).
                 child(String.valueOf(currentTime)).
                 setValue(mCoordinatesList);

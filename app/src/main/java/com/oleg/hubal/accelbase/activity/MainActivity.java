@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.oleg.hubal.accelbase.R;
@@ -30,27 +28,9 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             AccelerometerFragment accelerometerFragment = new AccelerometerFragment();
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().
-                    replace(R.id.flContainer, accelerometerFragment).
-                    commit();
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_sign_out:
-                auth.signOut();
-                startActivity(new Intent(getApplication(), SignupActivity.class));
-                return true;
-            default:
-                return false;
+            fragmentManager.beginTransaction()
+                    .replace(R.id.flContainer, accelerometerFragment)
+                    .commit();
         }
     }
 }
