@@ -3,13 +3,9 @@ package com.oleg.hubal.accelbase.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -20,6 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.oleg.hubal.accelbase.R;
+import com.oleg.hubal.accelbase.activity.HistoryActivity;
 import com.oleg.hubal.accelbase.adapter.HistoryAdapter;
 import com.oleg.hubal.accelbase.model.Coordinates;
 
@@ -43,7 +40,6 @@ public class HistoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_history, container, false);
-        setHasOptionsMenu(true);
 
         loadData();
         launchRecyclerView();
@@ -80,26 +76,6 @@ public class HistoryFragment extends Fragment {
         );
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_accelerometer:
-                AccelerometerFragment accelerometerFragment = new AccelerometerFragment();
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.flContainer, accelerometerFragment)
-                        .commit();
-                return true;
-            default:
-                return false;
-        }
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.history_menu, menu);
-    }
-
     private void launchRecyclerView() {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -107,7 +83,7 @@ public class HistoryFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mHistoryAdapter = new HistoryAdapter(mCoordinatesHistory);
+        mHistoryAdapter = new HistoryAdapter(mCoordinatesHistory, (HistoryActivity) getActivity());
         mRecyclerView.setAdapter(mHistoryAdapter);
     }
 }

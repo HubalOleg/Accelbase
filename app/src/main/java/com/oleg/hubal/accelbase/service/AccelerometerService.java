@@ -41,7 +41,7 @@ public class AccelerometerService extends Service implements SensorEventListener
     public int onStartCommand(Intent intent, int flags, int startId) {
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        accelerometerDelay = intent.getLongExtra(Constants.EXTRA_EDIT_TEXT_DELAY, 1000);
+        accelerometerDelay = intent.getLongExtra(Constants.BUNDLE_EDIT_TEXT_DELAY, 1000);
 
         currentTime = System.currentTimeMillis();
         mCoordinatesList = new ArrayList<>();

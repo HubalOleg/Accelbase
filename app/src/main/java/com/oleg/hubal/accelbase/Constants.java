@@ -9,6 +9,6 @@ public class Constants {
 
     public static final String STATE_CHECKED = "check_box_state";
 
-    public static final String EXTRA_EDIT_TEXT_DELAY = "delay";
-
+    public static final String BUNDLE_EDIT_TEXT_DELAY = "delay";
+    public static final String BUNDLE_COORDINATE_LIST = "list";
 }

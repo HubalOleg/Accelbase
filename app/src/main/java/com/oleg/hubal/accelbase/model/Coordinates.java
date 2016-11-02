@@ -1,10 +1,13 @@
 package com.oleg.hubal.accelbase.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by User on 01.11.2016.
  */
 
-public class Coordinates {
+public class Coordinates implements Parcelable {
 
     private double coordinateX;
     private double coordinateY;
@@ -53,4 +56,42 @@ public class Coordinates {
     public void setDate(Long date) {
         this.date = date;
     }
+
+    protected Coordinates(Parcel in) {
+        coordinateX = in.readDouble();
+        coordinateY = in.readDouble();
+        coordinateZ = in.readDouble();
+        date = in.readByte() == 0x00 ? null : in.readLong();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeDouble(coordinateX);
+        dest.writeDouble(coordinateY);
+        dest.writeDouble(coordinateZ);
+        if (date == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeLong(date);
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Coordinates> CREATOR = new Parcelable.Creator<Coordinates>() {
+        @Override
+        public Coordinates createFromParcel(Parcel in) {
+            return new Coordinates(in);
+        }
+
+        @Override
+        public Coordinates[] newArray(int size) {
+            return new Coordinates[size];
+        }
+    };
 }

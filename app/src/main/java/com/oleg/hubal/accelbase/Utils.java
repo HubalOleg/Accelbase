@@ -34,8 +34,8 @@ public class Utils {
         return formatter.format(calendar.getTime());
     }
 
-    public static String formatDate(Long milliSeconds) {
-        SimpleDateFormat formatter = new SimpleDateFormat("hh:mm:ss", Locale.ENGLISH);
+    public static String formatDate(Long milliSeconds, String format) {
+        SimpleDateFormat formatter = new SimpleDateFormat(format, Locale.ENGLISH);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(milliSeconds);
         return formatter.format(calendar.getTime());
