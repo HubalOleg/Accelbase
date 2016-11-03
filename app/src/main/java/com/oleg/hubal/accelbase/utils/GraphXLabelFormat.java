@@ -1,7 +1,5 @@
 package com.oleg.hubal.accelbase.utils;
 
-import android.util.Log;
-
 import java.text.FieldPosition;
 import java.text.Format;
 import java.text.ParsePosition;
@@ -24,7 +22,6 @@ public class GraphXLabelFormat extends Format {
         int parsedInt = Math.round(Float.parseFloat(object.toString()));
         String labelString = mDateLabels[parsedInt];
         buffer.append(labelString);
-        Log.d("log123", buffer.toString());
         return buffer;
     }
 

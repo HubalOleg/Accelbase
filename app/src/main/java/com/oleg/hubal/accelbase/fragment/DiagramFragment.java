@@ -40,7 +40,7 @@ public class DiagramFragment extends Fragment {
         getCoordinatesData();
 
         mPlot = (XYPlot) view.findViewById(R.id.diagram_plot);
-        mPlot.setDomainStep(XYStepMode.INCREMENT_BY_VAL, 1);
+        mPlot.setDomainStep(XYStepMode.INCREMENT_BY_VAL, 1 + domainValues.length / 7);
         mPlot.setDomainValueFormat(new GraphXLabelFormat(domainValues));
 
         createXYZSeries();
