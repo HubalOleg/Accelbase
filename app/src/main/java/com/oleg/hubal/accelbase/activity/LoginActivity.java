@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,7 +14,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.oleg.hubal.accelbase.R;
-import com.oleg.hubal.accelbase.Utils;
+import com.oleg.hubal.accelbase.utils.Utils;
+
+import static com.oleg.hubal.accelbase.R.id.password;
 
 /**
  * Created by User on 01.11.2016.
@@ -42,7 +43,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
         inputEmail = (EditText) findViewById(R.id.email);
-        inputPassword = (EditText) findViewById(R.id.password);
+        inputPassword = (EditText) findViewById(password);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         btnSignup = (Button) findViewById(R.id.btn_signup);
         btnLogin = (Button) findViewById(R.id.btn_login);
@@ -57,7 +58,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_login:
-                authenticateUser();
+                checkUserInputAndAuthenticateUser();
                 break;
             case R.id.btn_signup:
                 startActivity(new Intent(LoginActivity.this, SignupActivity.class));
@@ -68,22 +69,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void authenticateUser() {
+    private void checkUserInputAndAuthenticateUser() {
         String email = inputEmail.getText().toString();
-        final String password = inputPassword.getText().toString();
+        String password = inputPassword.getText().toString();
 
-        if (TextUtils.isEmpty(email)) {
-            Utils.showToast(LoginActivity.this, getString(R.string.enter_email));
+        if (!Utils.isUserInputValid(email, password, getApplicationContext()))
             return;
-        }
-        if (TextUtils.isEmpty(password)) {
-            Utils.showToast(LoginActivity.this, getString(R.string.enter_password));
-            return;
-        }
 
         progressBar.setVisibility(View.VISIBLE);
 
-        //authenticate user
+        authenticateUser(email, password);
+    }
+
+    private void authenticateUser(final String email, final String password) {
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override

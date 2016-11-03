@@ -1,4 +1,4 @@
-package com.oleg.hubal.accelbase;
+package com.oleg.hubal.accelbase.utils;
 
 import android.util.Log;
 

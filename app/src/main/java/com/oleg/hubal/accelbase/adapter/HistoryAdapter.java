@@ -1,6 +1,5 @@
 package com.oleg.hubal.accelbase.adapter;
 
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,9 +7,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.oleg.hubal.accelbase.R;
-import com.oleg.hubal.accelbase.Utils;
 import com.oleg.hubal.accelbase.listener.OnHistoryItemClickListener;
 import com.oleg.hubal.accelbase.model.Coordinates;
+import com.oleg.hubal.accelbase.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.TreeMap;
@@ -23,13 +22,12 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         implements View.OnClickListener {
 
     private TreeMap<String, ArrayList<Coordinates>> mHistoryMap;
-    private ArrayList<String> mDateKeys;
     private OnHistoryItemClickListener mItemClickListener;
+    private ArrayList<String> mDateKeys;
 
-    public HistoryAdapter(TreeMap<String, ArrayList<Coordinates>> historyMap,
-                          OnHistoryItemClickListener itemClickListener) {
+    public HistoryAdapter(OnHistoryItemClickListener itemClickListener) {
         mItemClickListener = itemClickListener;
-        mHistoryMap = historyMap;
+        mHistoryMap = new TreeMap<>();
         mDateKeys = new ArrayList<>();
     }
 
@@ -43,26 +41,23 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        StringBuilder coordInfo = new StringBuilder();
+        StringBuilder coordinatesInfo = new StringBuilder();
         String dateKey = mDateKeys.get(position);
-        Bundle bundle = new Bundle();
 
         ArrayList<Coordinates> coordinatesList = mHistoryMap.get(dateKey);
+
         for (Coordinates coordinates : coordinatesList) {
             String date = Utils.formatDate(coordinates.getDate(), "hh:mm:ss");
-            double x = coordinates.getCoordinateX();
-            double y = coordinates.getCoordinateY();
-            double z = coordinates.getCoordinateZ();
 
-            coordInfo.append(date + "\n")
-                    .append("X: " + x + "\n")
-                    .append("Y: " + y + "\n")
-                    .append("Z: " + z + "\n");
+            coordinatesInfo.append(date).append("\n")
+                    .append("X: ").append(coordinates.getCoordinateX()).append("\n")
+                    .append("Y: ").append(coordinates.getCoordinateY()).append("\n")
+                    .append("Z: ").append(coordinates.getCoordinateZ()).append("\n");
         }
 
-        holder.tvCoords.setText(coordInfo.toString().trim());
+        holder.tvCoords.setText(coordinatesInfo.toString().trim());
         holder.tvDate.setText(Utils.formatDate(dateKey));
-        holder.view.setTag(coordinatesList);
+        holder.view.setTag(dateKey);
         holder.view.setOnClickListener(this);
     }
 
@@ -71,7 +66,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         return mHistoryMap.size();
     }
 
-    public void notifyData(TreeMap<String, ArrayList<Coordinates>> historyMap) {
+    public void notifyDataChange(TreeMap<String, ArrayList<Coordinates>> historyMap) {
         mHistoryMap = historyMap;
         mDateKeys = new ArrayList<>(mHistoryMap.keySet());
         notifyDataSetChanged();
@@ -79,7 +74,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     @Override
     public void onClick(View v) {
-        mItemClickListener.showDiagram((ArrayList<Coordinates>) v.getTag());
+        mItemClickListener.showDiagramDynamicScreen((String) v.getTag());
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

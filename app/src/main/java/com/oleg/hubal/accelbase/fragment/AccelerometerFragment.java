@@ -11,9 +11,9 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
-import com.oleg.hubal.accelbase.Constants;
+import com.oleg.hubal.accelbase.utils.Constants;
 import com.oleg.hubal.accelbase.R;
-import com.oleg.hubal.accelbase.Utils;
+import com.oleg.hubal.accelbase.utils.Utils;
 import com.oleg.hubal.accelbase.service.AccelerometerService;
 
 /**

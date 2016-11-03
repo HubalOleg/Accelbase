@@ -9,12 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.oleg.hubal.accelbase.R;
 import com.oleg.hubal.accelbase.activity.HistoryActivity;
 import com.oleg.hubal.accelbase.adapter.HistoryAdapter;
@@ -29,7 +23,6 @@ import java.util.TreeMap;
 
 public class HistoryFragment extends Fragment {
 
-    private TreeMap<String, ArrayList<Coordinates>> mCoordinatesHistory;
     private RecyclerView mRecyclerView;
     private HistoryAdapter mHistoryAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -41,39 +34,13 @@ public class HistoryFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_history, container, false);
 
-        loadData();
         launchRecyclerView();
 
         return view;
     }
 
-    private void loadData() {
-        mCoordinatesHistory = new TreeMap<>();
-
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-        reference.child(userId).addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot historyItem : dataSnapshot.getChildren()) {
-                            ArrayList<Coordinates> coordinatesList = new ArrayList<>();
-
-                            for (DataSnapshot coordinateItem : historyItem.getChildren()) {
-                                Coordinates coord = coordinateItem.getValue(Coordinates.class);
-                                coordinatesList.add(coord);
-                            }
-                            mCoordinatesHistory.put(historyItem.getKey(), coordinatesList);
-                            mHistoryAdapter.notifyData(mCoordinatesHistory);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                }
-        );
+    public void notifyDataChange(TreeMap<String, ArrayList<Coordinates>> historyMap) {
+        mHistoryAdapter.notifyDataChange(historyMap);
     }
 
     private void launchRecyclerView() {
@@ -83,7 +50,7 @@ public class HistoryFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mHistoryAdapter = new HistoryAdapter(mCoordinatesHistory, (HistoryActivity) getActivity());
+        mHistoryAdapter = new HistoryAdapter((HistoryActivity) getActivity());
         mRecyclerView.setAdapter(mHistoryAdapter);
     }
 }

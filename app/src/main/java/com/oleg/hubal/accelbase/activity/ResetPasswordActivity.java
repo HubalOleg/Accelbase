@@ -13,7 +13,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.oleg.hubal.accelbase.R;
-import com.oleg.hubal.accelbase.Utils;
+import com.oleg.hubal.accelbase.utils.Utils;
 
 /**
  * Created by User on 01.11.2016.
@@ -63,6 +63,7 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
         }
 
         progressBar.setVisibility(View.VISIBLE);
+
         auth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
 
             @Override

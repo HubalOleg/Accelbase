@@ -14,7 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.oleg.hubal.accelbase.Constants;
+import com.oleg.hubal.accelbase.utils.Constants;
 import com.oleg.hubal.accelbase.model.Coordinates;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class AccelerometerService extends Service implements SensorEventListener
     private List<Coordinates> mCoordinatesList;
     private long currentTime;
 
-    final Handler handler = new Handler();
+    final Handler loopHandler = new Handler();
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -45,7 +45,6 @@ public class AccelerometerService extends Service implements SensorEventListener
 
         currentTime = System.currentTimeMillis();
         mCoordinatesList = new ArrayList<>();
-
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -64,17 +63,19 @@ public class AccelerometerService extends Service implements SensorEventListener
     @Override
     public void onDestroy() {
         super.onDestroy();
-        handler.removeCallbacksAndMessages(null);
+        loopHandler.removeCallbacksAndMessages(null);
+        pushDataToFirebase();
+    }
 
-//          Push list of data on firebase
-        mDatabase.child(user.getUid()).
-                child(String.valueOf(currentTime)).
-                setValue(mCoordinatesList);
+    private void pushDataToFirebase() {
+        mDatabase.child(user.getUid())
+                .child(String.valueOf(currentTime))
+                .setValue(mCoordinatesList);
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        saveDataAndUnregisterListener(event);
+        saveAccelerometerCoorUnit(event);
     }
 
     @Override
@@ -83,16 +84,16 @@ public class AccelerometerService extends Service implements SensorEventListener
     }
 
     private void startAccelerometerLoop() {
-        handler.postDelayed(new Runnable() {
+        loopHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 registerListener();
-                handler.postDelayed(this, accelerometerDelay);
+                loopHandler.postDelayed(this, accelerometerDelay);
             }
         }, accelerometerDelay);
     }
 
-    private void saveDataAndUnregisterListener(SensorEvent event) {
+    private void saveAccelerometerCoorUnit(SensorEvent event) {
         Long date = System.currentTimeMillis();
         double x = event.values[0];
         double y = event.values[1];

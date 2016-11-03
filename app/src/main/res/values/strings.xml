@@ -39,4 +39,7 @@
     <string name="enter_password">Enter password!</string>
     <string name="sign_out">Sign out</string>
     <string name="history">History</string>
+    <string name="X">X</string>
+    <string name="Y">Y</string>
+    <string name="Z">Z</string>
 </resources>

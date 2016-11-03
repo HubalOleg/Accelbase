@@ -9,7 +9,7 @@ import com.oleg.hubal.accelbase.R;
 import com.oleg.hubal.accelbase.fragment.DiagramFragment;
 
 /**
- * Created by User on 02.11.2016.
+ * Created by User on 03.11.2016.
  */
 
 public class DiagramActivity extends AppCompatActivity {

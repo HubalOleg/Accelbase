@@ -1,8 +1,11 @@
-package com.oleg.hubal.accelbase;
+package com.oleg.hubal.accelbase.utils;
 
 import android.content.Context;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.widget.Toast;
+
+import com.oleg.hubal.accelbase.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -39,5 +42,21 @@ public class Utils {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(milliSeconds);
         return formatter.format(calendar.getTime());
+    }
+
+    public static boolean isUserInputValid(String email, String password, Context context) {
+        if (TextUtils.isEmpty(email)) {
+            Utils.showToast(context, context.getString(R.string.enter_email));
+            return false;
+        }
+        if (TextUtils.isEmpty(password)) {
+            Utils.showToast(context, context.getString(R.string.enter_password));
+            return false;
+        }
+        if (password.length() < 6) {
+            Utils.showToast(context, context.getString(R.string.minimum_password));
+            return false;
+        }
+        return true;
     }
 }

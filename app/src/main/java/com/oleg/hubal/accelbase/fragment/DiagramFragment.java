@@ -13,11 +13,11 @@ import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYSeries;
 import com.androidplot.xy.XYStepMode;
-import com.oleg.hubal.accelbase.Constants;
-import com.oleg.hubal.accelbase.GraphXLabelFormat;
 import com.oleg.hubal.accelbase.R;
-import com.oleg.hubal.accelbase.Utils;
 import com.oleg.hubal.accelbase.model.Coordinates;
+import com.oleg.hubal.accelbase.utils.Constants;
+import com.oleg.hubal.accelbase.utils.GraphXLabelFormat;
+import com.oleg.hubal.accelbase.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -37,28 +37,22 @@ public class DiagramFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_diagram, container, false);
 
-        ArrayList<Coordinates> coordinates =
-                getArguments().getParcelableArrayList(Constants.BUNDLE_COORDINATE_LIST);
-
-        getCoordinatesData(coordinates);
+        getCoordinatesData();
 
         mPlot = (XYPlot) view.findViewById(R.id.diagram_plot);
         mPlot.setDomainStep(XYStepMode.INCREMENT_BY_VAL, 1);
         mPlot.setDomainValueFormat(new GraphXLabelFormat(domainValues));
 
-        XYSeries xSeries = new SimpleXYSeries(xCoord, SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "X");
-        XYSeries ySeries = new SimpleXYSeries(yCoord, SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Y");
-        XYSeries zSeries = new SimpleXYSeries(zCoord, SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Z");
-
-        mPlot.addSeries(xSeries, new LineAndPointFormatter(Color.GREEN, Color.GREEN, null, null));
-        mPlot.addSeries(ySeries, new LineAndPointFormatter(Color.RED, Color.RED, null, null));
-        mPlot.addSeries(zSeries, new LineAndPointFormatter(Color.BLUE, Color.BLUE, null, null));
+        createXYZSeries();
 
         return view;
     }
 
-    private void getCoordinatesData(ArrayList<Coordinates> coordinates) {
+    private void getCoordinatesData() {
+        ArrayList<Coordinates> coordinates =
+                getArguments().getParcelableArrayList(Constants.BUNDLE_COORDINATES_LIST);
         ArrayList<String> date = new ArrayList<>();
+
         xCoord = new ArrayList<>();
         yCoord = new ArrayList<>();
         zCoord = new ArrayList<>();
@@ -71,5 +65,18 @@ public class DiagramFragment extends Fragment {
         }
 
         domainValues = date.toArray(new String[date.size()]);
+    }
+
+    private void createXYZSeries() {
+        XYSeries xSeries = new SimpleXYSeries(xCoord,
+                SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, getString(R.string.X));
+        XYSeries ySeries = new SimpleXYSeries(yCoord,
+                SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, getString(R.string.Y));
+        XYSeries zSeries = new SimpleXYSeries(zCoord,
+                SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, getString(R.string.Z));
+
+        mPlot.addSeries(xSeries, new LineAndPointFormatter(Color.GREEN, Color.GREEN, null, null));
+        mPlot.addSeries(ySeries, new LineAndPointFormatter(Color.RED, Color.RED, null, null));
+        mPlot.addSeries(zSeries, new LineAndPointFormatter(Color.BLUE, Color.BLUE, null, null));
     }
 }
