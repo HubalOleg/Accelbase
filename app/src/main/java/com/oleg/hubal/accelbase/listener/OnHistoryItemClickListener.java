@@ -5,5 +5,5 @@ package com.oleg.hubal.accelbase.listener;
  */
 
 public interface OnHistoryItemClickListener {
-    public void showDiagramDynamicScreen(String historyKey);
+    public void onHistoryItemClick(String historyKey);
 }

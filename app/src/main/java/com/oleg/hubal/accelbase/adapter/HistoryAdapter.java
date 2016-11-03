@@ -74,7 +74,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     @Override
     public void onClick(View v) {
-        mItemClickListener.showDiagramDynamicScreen((String) v.getTag());
+        mItemClickListener.onHistoryItemClick((String) v.getTag());
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

@@ -63,7 +63,11 @@ public class HistoryActivity extends AppCompatActivity implements OnHistoryItemC
     }
 
     @Override
-    public void showDiagramDynamicScreen(String historyKey) {
+    public void onHistoryItemClick(String historyKey) {
+        showDiagramFragment(historyKey);
+    }
+
+    private void showDiagramFragment(String historyKey) {
         ArrayList<Coordinates> coordinatesList = mCoordinatesHistory.get(historyKey);
 
         Bundle bundle = new Bundle();
