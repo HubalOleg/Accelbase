@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.oleg.hubal.accelbase.R;
 import com.oleg.hubal.accelbase.listener.OnHistoryItemClickListener;
 import com.oleg.hubal.accelbase.model.Coordinates;
+import com.oleg.hubal.accelbase.utility.Constants;
 import com.oleg.hubal.accelbase.utility.Utility;
 
 import java.util.ArrayList;
@@ -47,15 +48,15 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         ArrayList<Coordinates> coordinatesList = mHistoryMap.get(dateKey);
 
         for (Coordinates coordinates : coordinatesList) {
-            String date = Utility.formatDate(coordinates.getDate(), "hh:mm:ss");
+            String date = Utility.formatDate(coordinates.getDate(), Constants.DATE_HOUR_FORMAT);
 
             coordinatesInfo.append(date).append("\n")
-                    .append("X: ").append(coordinates.getCoordinateX()).append("\n")
-                    .append("Y: ").append(coordinates.getCoordinateY()).append("\n")
-                    .append("Z: ").append(coordinates.getCoordinateZ()).append("\n");
+                    .append(Constants.X).append(coordinates.getCoordinateX()).append("\n")
+                    .append(Constants.Y).append(coordinates.getCoordinateY()).append("\n")
+                    .append(Constants.Z).append(coordinates.getCoordinateZ()).append("\n");
         }
 
-        holder.tvCoords.setText(coordinatesInfo.toString().trim());
+        holder.tvCoordinateList.setText(coordinatesInfo.toString().trim());
         holder.tvDate.setText(Utility.formatDate(dateKey));
         holder.view.setTag(dateKey);
         holder.view.setOnClickListener(this);
@@ -78,14 +79,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvDate, tvCoords;
+        public TextView tvDate, tvCoordinateList;
         public View view;
 
         ViewHolder(View itemView) {
             super(itemView);
             view = itemView;
             tvDate = (TextView) itemView.findViewById(R.id.tvHistoryDate);
-            tvCoords = (TextView) itemView.findViewById(R.id.tvHistoryCoords);
+            tvCoordinateList = (TextView) itemView.findViewById(R.id.tvCoordinateHistory);
         }
     }
 }

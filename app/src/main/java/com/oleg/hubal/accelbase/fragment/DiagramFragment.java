@@ -58,7 +58,7 @@ public class DiagramFragment extends Fragment {
         zCoord = new ArrayList<>();
 
         for (Coordinates coord : coordinates) {
-            date.add(Utility.formatDate(coord.getDate(), "mm:ss"));
+            date.add(Utility.formatDate(coord.getDate(), Constants.DATE_MINUT_FORMAT));
             xCoord.add(coord.getCoordinateX());
             yCoord.add(coord.getCoordinateY());
             zCoord.add(coord.getCoordinateZ());

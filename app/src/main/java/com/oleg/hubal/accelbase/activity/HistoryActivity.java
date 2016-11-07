@@ -43,9 +43,7 @@ public class HistoryActivity extends AppCompatActivity implements OnHistoryItemC
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.flFragmentContainer, mHistoryFrag).commit();
 
-        if (Utility.isNetworkConnected(getApplicationContext())) {
-            loadData();
-        }
+        loadData();
     }
 
     @Override
@@ -91,6 +89,8 @@ public class HistoryActivity extends AppCompatActivity implements OnHistoryItemC
     }
 
     private void loadData() {
+        Utility.isNetworkConnected(this);
+
         mCoordinatesHistory = new TreeMap<>();
 
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();

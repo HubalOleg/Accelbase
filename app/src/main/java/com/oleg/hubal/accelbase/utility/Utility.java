@@ -25,7 +25,7 @@ public class Utility {
         if (connectivityManager.getActiveNetworkInfo() != null) {
             return true;
         } else {
-            showToast(context, String.valueOf(R.string.error_internet));
+            showToast(context, Constants.CONNECT_INTERNET);
             return false;
         }
     }
@@ -45,7 +45,9 @@ public class Utility {
 
     public static String formatDate(String milliSeconds) {
         Long millis = Long.parseLong(milliSeconds);
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.ENGLISH);
+        SimpleDateFormat formatter =
+                new SimpleDateFormat(Constants.DATE_YEAR_FORMAT, Locale.ENGLISH);
+
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(millis);
         return formatter.format(calendar.getTime());
