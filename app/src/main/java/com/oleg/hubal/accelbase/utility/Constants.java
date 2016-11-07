@@ -1,4 +1,4 @@
-package com.oleg.hubal.accelbase.utils;
+package com.oleg.hubal.accelbase.utility;
 
 /**
  * Created by User on 01.11.2016.

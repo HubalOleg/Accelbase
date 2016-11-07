@@ -19,7 +19,8 @@ import com.oleg.hubal.accelbase.fragment.DiagramFragment;
 import com.oleg.hubal.accelbase.fragment.HistoryFragment;
 import com.oleg.hubal.accelbase.listener.OnHistoryItemClickListener;
 import com.oleg.hubal.accelbase.model.Coordinates;
-import com.oleg.hubal.accelbase.utils.Constants;
+import com.oleg.hubal.accelbase.utility.Constants;
+import com.oleg.hubal.accelbase.utility.Utility;
 
 import java.util.ArrayList;
 import java.util.TreeMap;
@@ -42,7 +43,9 @@ public class HistoryActivity extends AppCompatActivity implements OnHistoryItemC
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.flFragmentContainer, mHistoryFrag).commit();
 
-        loadData();
+        if (Utility.isNetworkConnected(getApplicationContext())) {
+            loadData();
+        }
     }
 
     @Override

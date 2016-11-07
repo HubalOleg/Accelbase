@@ -15,9 +15,9 @@ import com.androidplot.xy.XYSeries;
 import com.androidplot.xy.XYStepMode;
 import com.oleg.hubal.accelbase.R;
 import com.oleg.hubal.accelbase.model.Coordinates;
-import com.oleg.hubal.accelbase.utils.Constants;
-import com.oleg.hubal.accelbase.utils.GraphXLabelFormat;
-import com.oleg.hubal.accelbase.utils.Utils;
+import com.oleg.hubal.accelbase.utility.Constants;
+import com.oleg.hubal.accelbase.utility.GraphXLabelFormat;
+import com.oleg.hubal.accelbase.utility.Utility;
 
 import java.util.ArrayList;
 
@@ -58,7 +58,7 @@ public class DiagramFragment extends Fragment {
         zCoord = new ArrayList<>();
 
         for (Coordinates coord : coordinates) {
-            date.add(Utils.formatDate(coord.getDate(), "mm:ss"));
+            date.add(Utility.formatDate(coord.getDate(), "mm:ss"));
             xCoord.add(coord.getCoordinateX());
             yCoord.add(coord.getCoordinateY());
             zCoord.add(coord.getCoordinateZ());

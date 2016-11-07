@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.oleg.hubal.accelbase.R;
 import com.oleg.hubal.accelbase.listener.OnHistoryItemClickListener;
 import com.oleg.hubal.accelbase.model.Coordinates;
-import com.oleg.hubal.accelbase.utils.Utils;
+import com.oleg.hubal.accelbase.utility.Utility;
 
 import java.util.ArrayList;
 import java.util.TreeMap;
@@ -47,7 +47,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         ArrayList<Coordinates> coordinatesList = mHistoryMap.get(dateKey);
 
         for (Coordinates coordinates : coordinatesList) {
-            String date = Utils.formatDate(coordinates.getDate(), "hh:mm:ss");
+            String date = Utility.formatDate(coordinates.getDate(), "hh:mm:ss");
 
             coordinatesInfo.append(date).append("\n")
                     .append("X: ").append(coordinates.getCoordinateX()).append("\n")
@@ -56,7 +56,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         }
 
         holder.tvCoords.setText(coordinatesInfo.toString().trim());
-        holder.tvDate.setText(Utils.formatDate(dateKey));
+        holder.tvDate.setText(Utility.formatDate(dateKey));
         holder.view.setTag(dateKey);
         holder.view.setOnClickListener(this);
     }

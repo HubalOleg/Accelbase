@@ -1,4 +1,4 @@
-package com.oleg.hubal.accelbase.utils;
+package com.oleg.hubal.accelbase.utility;
 
 import java.text.FieldPosition;
 import java.text.Format;

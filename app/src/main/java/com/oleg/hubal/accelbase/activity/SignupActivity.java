@@ -14,7 +14,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.oleg.hubal.accelbase.R;
-import com.oleg.hubal.accelbase.utils.Utils;
+import com.oleg.hubal.accelbase.utility.Utility;
 
 import static com.oleg.hubal.accelbase.R.id.password;
 
@@ -58,7 +58,9 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sign_up_button:
-                checkInputAndCreateUser();
+                if (Utility.isNetworkConnected(getApplicationContext())) {
+                    checkInputAndCreateUser();
+                }
                 break;
             case R.id.sign_in_button:
                 startActivity(new Intent(SignupActivity.this, LoginActivity.class));
@@ -73,7 +75,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         String email = inputEmail.getText().toString().trim();
         String password = inputPassword.getText().toString().trim();
 
-        if (!Utils.isUserInputValid(email, password, getApplicationContext()))
+        if (!Utility.isUserInputValid(email, password, getApplicationContext()))
             return;
 
         progressBar.setVisibility(View.VISIBLE);
@@ -86,11 +88,11 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                 addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Utils.showToast(SignupActivity.this,
+                        Utility.showToast(SignupActivity.this,
                                 "createUserWithEmail:onComplete:" + task.isSuccessful());
                         progressBar.setVisibility(View.GONE);
                         if (!task.isSuccessful()) {
-                            Utils.showToast(SignupActivity.this,
+                            Utility.showToast(SignupActivity.this,
                                     "Authentication failed." + task.getException());
                         } else {
                             startActivity(new Intent(SignupActivity.this, MainActivity.class));

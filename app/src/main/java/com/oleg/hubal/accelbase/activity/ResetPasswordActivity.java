@@ -13,7 +13,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.oleg.hubal.accelbase.R;
-import com.oleg.hubal.accelbase.utils.Utils;
+import com.oleg.hubal.accelbase.utility.Utility;
 
 /**
  * Created by User on 01.11.2016.
@@ -46,7 +46,9 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_reset_password:
-                resetPassword();
+                if (Utility.isNetworkConnected(getApplicationContext())) {
+                    resetPassword();
+                }
                 break;
             case R.id.btn_back:
                 finish();
@@ -58,7 +60,7 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
         String email = inputEmail.getText().toString().trim();
 
         if (TextUtils.isEmpty(email)) {
-            Utils.showToast(getApplication(), getString(R.string.enter_email_id));
+            Utility.showToast(getApplication(), getString(R.string.enter_email_id));
             return;
         }
 
@@ -69,9 +71,9 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    Utils.showToast(getApplication(), getString(R.string.pass_sent_instruction));
+                    Utility.showToast(getApplication(), getString(R.string.pass_sent_instruction));
                 } else {
-                    Utils.showToast(getApplication(), getString(R.string.failed_to_send));
+                    Utility.showToast(getApplication(), getString(R.string.failed_to_send));
                 }
                 progressBar.setVisibility(View.GONE);
             }

@@ -14,7 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.oleg.hubal.accelbase.utils.Constants;
+import com.oleg.hubal.accelbase.utility.Constants;
 import com.oleg.hubal.accelbase.model.Coordinates;
 
 import java.util.ArrayList;

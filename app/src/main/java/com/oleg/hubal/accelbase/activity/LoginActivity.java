@@ -14,7 +14,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.oleg.hubal.accelbase.R;
-import com.oleg.hubal.accelbase.utils.Utils;
+import com.oleg.hubal.accelbase.utility.Utility;
 
 import static com.oleg.hubal.accelbase.R.id.password;
 
@@ -58,7 +58,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_login:
-                checkUserInputAndAuthenticateUser();
+                if (Utility.isNetworkConnected(getApplicationContext())) {
+                    checkUserInputAndAuthenticateUser();
+                }
                 break;
             case R.id.btn_signup:
                 startActivity(new Intent(LoginActivity.this, SignupActivity.class));
@@ -73,7 +75,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String email = inputEmail.getText().toString();
         String password = inputPassword.getText().toString();
 
-        if (!Utils.isUserInputValid(email, password, getApplicationContext()))
+        if (!Utility.isUserInputValid(email, password, getApplicationContext()))
             return;
 
         progressBar.setVisibility(View.VISIBLE);
@@ -91,7 +93,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             if (password.length() < 6) {
                                 inputPassword.setError(getString(R.string.minimum_password));
                             } else {
-                                Utils.showToast(getApplication(), getString(R.string.auth_failed));
+                                Utility.showToast(getApplication(), getString(R.string.auth_failed));
                             }
                         } else {
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);

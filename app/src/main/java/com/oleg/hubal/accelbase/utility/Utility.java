@@ -1,6 +1,7 @@
-package com.oleg.hubal.accelbase.utils;
+package com.oleg.hubal.accelbase.utility;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.widget.Toast;
@@ -15,7 +16,20 @@ import java.util.Locale;
  * Created by User on 01.11.2016.
  */
 
-public class Utils {
+public class Utility {
+
+    public static boolean isNetworkConnected(Context context) {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (connectivityManager.getActiveNetworkInfo() != null) {
+            return true;
+        } else {
+            showToast(context, String.valueOf(R.string.error_internet));
+            return false;
+        }
+    }
+
     public static long getDelayFromEditText(Editable text) {
         long delay = 1;
         String delayText = text.toString();
@@ -46,15 +60,15 @@ public class Utils {
 
     public static boolean isUserInputValid(String email, String password, Context context) {
         if (TextUtils.isEmpty(email)) {
-            Utils.showToast(context, context.getString(R.string.enter_email));
+            Utility.showToast(context, context.getString(R.string.enter_email));
             return false;
         }
         if (TextUtils.isEmpty(password)) {
-            Utils.showToast(context, context.getString(R.string.enter_password));
+            Utility.showToast(context, context.getString(R.string.enter_password));
             return false;
         }
         if (password.length() < 6) {
-            Utils.showToast(context, context.getString(R.string.minimum_password));
+            Utility.showToast(context, context.getString(R.string.minimum_password));
             return false;
         }
         return true;

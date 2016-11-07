@@ -11,9 +11,9 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
-import com.oleg.hubal.accelbase.utils.Constants;
+import com.oleg.hubal.accelbase.utility.Constants;
 import com.oleg.hubal.accelbase.R;
-import com.oleg.hubal.accelbase.utils.Utils;
+import com.oleg.hubal.accelbase.utility.Utility;
 import com.oleg.hubal.accelbase.service.AccelerometerService;
 
 /**
@@ -56,7 +56,7 @@ public class AccelerometerFragment extends Fragment
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         Intent intent = new Intent(getContext(), AccelerometerService.class);
         if (isChecked) {
-            long delay = Utils.getDelayFromEditText(etDelay.getText());
+            long delay = Utility.getDelayFromEditText(etDelay.getText());
             intent.putExtra(Constants.BUNDLE_EDIT_TEXT_DELAY, delay);
             getActivity().startService(intent);
         } else {
